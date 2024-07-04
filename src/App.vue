@@ -1,46 +1,46 @@
 <script setup>
 import { ref } from 'vue'
 
-const user = ref({
-  name: 'Eduardo',
-  surname: 'da Silva',
-  email: 'eduardo.silva@gmail.com',
-  city: '',
-  state: '',
+const usuario = ref({
+  nome: '',
+  sobrenome: '',
+  email: '',
+  cidade: '',
+  estado: '',
   zip: '',
   avatar: '',
   hobbies: [],
-  preferredLanguage: ''
+  linguagemPref: ''
 })
 
-const states = [
-  { uf: 'AC', name: 'Acre' },
-  { uf: 'AL', name: 'Alagoas' },
-  { uf: 'AP', name: 'Amapá' },
-  { uf: 'AM', name: 'Amazonas' },
-  { uf: 'BA', name: 'Bahia' },
-  { uf: 'CE', name: 'Ceará' },
-  { uf: 'DF', name: 'Distrito Federal' },
-  { uf: 'ES', name: 'Espírito Santo' },
-  { uf: 'GO', name: 'Goiás' },
-  { uf: 'MA', name: 'Maranhão' },
-  { uf: 'MT', name: 'Mato Grosso' },
-  { uf: 'MS', name: 'Mato Grosso do Sul' },
-  { uf: 'MG', name: 'Minas Gerais' },
-  { uf: 'PA', name: 'Pará' },
-  { uf: 'PB', name: 'Paraíba' },
-  { uf: 'PR', name: 'Paraná' },
-  { uf: 'PE', name: 'Pernambuco' },
-  { uf: 'PI', name: 'Piauí' },
-  { uf: 'RJ', name: 'Rio de Janeiro' },
-  { uf: 'RN', name: 'Rio Grande do Norte' },
-  { uf: 'RS', name: 'Rio Grande do Sul' },
-  { uf: 'RO', name: 'Rondônia' },
-  { uf: 'RR', name: 'Roraima' },
-  { uf: 'SC', name: 'Santa Catarina' },
-  { uf: 'SP', name: 'São Paulo' },
-  { uf: 'SE', name: 'Sergipe' },
-  { uf: 'TO', name: 'Tocantins' }
+const estados = [
+  { uf: 'AC', nome: 'Acre' },
+  { uf: 'AL', nome: 'Alagoas' },
+  { uf: 'AP', nome: 'Amapá' },
+  { uf: 'AM', nome: 'Amazonas' },
+  { uf: 'BA', nome: 'Bahia' },
+  { uf: 'CE', nome: 'Ceará' },
+  { uf: 'DF', nome: 'Distrito Federal' },
+  { uf: 'ES', nome: 'Espírito Santo' },
+  { uf: 'GO', nome: 'Goiás' },
+  { uf: 'MA', nome: 'Maranhão' },
+  { uf: 'MT', nome: 'Mato Grosso' },
+  { uf: 'MS', nome: 'Mato Grosso do Sul' },
+  { uf: 'MG', nome: 'Minas Gerais' },
+  { uf: 'PA', nome: 'Pará' },
+  { uf: 'PB', nome: 'Paraíba' },
+  { uf: 'PR', nome: 'Paraná' },
+  { uf: 'PE', nome: 'Pernambuco' },
+  { uf: 'PI', nome: 'Piauí' },
+  { uf: 'RJ', nome: 'Rio de Janeiro' },
+  { uf: 'RN', nome: 'Rio Grande do Norte' },
+  { uf: 'RS', nome: 'Rio Grande do Sul' },
+  { uf: 'RO', nome: 'Rondônia' },
+  { uf: 'RR', nome: 'Roraima' },
+  { uf: 'SC', nome: 'Santa Catarina' },
+  { uf: 'SP', nome: 'São Paulo' },
+  { uf: 'SE', nome: 'Sergipe' },
+  { uf: 'TO', nome: 'Tocantins' }
 ]
 
 const mostrarPerfil = ref(false)
@@ -50,7 +50,7 @@ function handleFileUpload(e) {
   console.log(target)
   if (target && target.files) {
     const file = target.files[0]
-    user.value.avatar = URL.createObjectURL(file)
+    usuario.value.avatar = URL.createObjectURL(file)
   }
 }
 
@@ -63,27 +63,27 @@ function salvarPerfil() {
   <div class="container">
     <main>
       <h1>Editor de Perfil</h1>
-      <transition name="form" mode="out-in">
+      <transition nome="form" mode="out-in">
         <section v-if="mostrarPerfil">
           <div class="mt-5 mb-3">
-            <p v-for="(value, key) of user" :key="key">{{ key }}: {{ value }}</p>
-            <img v-if="user.avatar" class="avatar" :src="user.avatar" />
+            <p v-for="(value, key) of usuario" :key="key">{{ key }}: {{ value }}</p>
+            <img v-if="usuario.avatar" class="avatar" :src="usuario.avatar" />
           </div>
           <button class="btn btn-info" @click="mostrarPerfil = false">Esconder</button>
         </section>
         <form v-else class="row g-3 was-validated" @submit.prevent="salvarPerfil()" validate>
           <div class="col-md-4">
-            <label for="nameField" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="nameField" v-model="user.name" required />
+            <label for="nomeField" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nomeField" v-model="usuario.nome" required />
             <div class="invalid-feedback">Nome obrigatório</div>
           </div>
           <div class="col-md-4">
-            <label for="surnameField" class="form-label">Sobrenome</label>
+            <label for="sobrenomeField" class="form-label">Sobrenome</label>
             <input
               type="text"
               class="form-control"
-              id="surnameField"
-              v-model="user.surname"
+              id="sobrenomeField"
+              v-model="usuario.sobrenome"
               required
             />
             <div class="invalid-feedback">Sobrenome obrigatório</div>
@@ -97,7 +97,7 @@ function salvarPerfil() {
                 class="form-control"
                 id="emailField"
                 aria-describedby="emailFieldPrepend"
-                v-model="user.email"
+                v-model="usuario.email"
                 required
               />
               <div class="invalid-feedback">E-mail obrigatório.</div>
@@ -105,21 +105,21 @@ function salvarPerfil() {
             </div>
           </div>
           <div class="col-md-2">
-            <label for="cityField" class="form-label">Cidade</label>
-            <input type="text" class="form-control" id="cityField" v-model="user.city" />
+            <label for="cidadeField" class="form-label">Cidade</label>
+            <input type="text" class="form-control" id="cidadeField" v-model="usuario.cidade" />
           </div>
           <div class="col-md-2">
-            <label for="stateField" class="form-label">Estado</label>
-            <select class="form-select" id="stateField" v-model="user.state">
+            <label for="estadoField" class="form-label">Estado</label>
+            <select class="form-select" id="estadoField" v-model="usuario.estado">
               <option selected disabled value="">Selecionar...</option>
-              <option v-for="state of states" :key="state.uf" :value="state.uf">
-                {{ state.name }}
+              <option v-for="estado of estados" :key="estado.uf" :value="estado.uf">
+                {{ estado.nome }}
               </option>
             </select>
           </div>
           <div class="col-md-2">
             <label for="zipField" class="form-label">CEP</label>
-            <input type="text" class="form-control" id="zipField" v-model="user.zip" />
+            <input type="text" class="form-control" id="zipField" v-model="usuario.zip" />
           </div>
           <div class="col-md-6">
             <label for="avatarField" class="form-label">Avatar</label>
@@ -137,7 +137,7 @@ function salvarPerfil() {
               type="checkbox"
               id="hobbiesField"
               value="esportes"
-              v-model="user.hobbies"
+              v-model="usuario.hobbies"
             />
             <label for="hobbiesField">Esportes</label>
             <input
@@ -145,7 +145,7 @@ function salvarPerfil() {
               type="checkbox"
               id="hobbiesField"
               value="música"
-              v-model="user.hobbies"
+              v-model="usuario.hobbies"
             />
             <label for="hobbiesField">Música</label>
             <input
@@ -153,7 +153,7 @@ function salvarPerfil() {
               type="checkbox"
               id="hobbiesField"
               value="viagens"
-              v-model="user.hobbies"
+              v-model="usuario.hobbies"
             />
             <label for="hobbiesField">Viagens</label>
             <input
@@ -161,7 +161,7 @@ function salvarPerfil() {
               type="checkbox"
               id="hobbiesField"
               value="leitura"
-              v-model="user.hobbies"
+              v-model="usuario.hobbies"
             />
             <label for="hobbiesField">Leitura</label>
           </div>
@@ -170,7 +170,7 @@ function salvarPerfil() {
             <input
               class="ms-3 me-1"
               type="radio"
-              v-model="user.preferredLanguage"
+              v-model="usuario.linguagemPref"
               value="C"
               id="langC"
             />
@@ -178,7 +178,7 @@ function salvarPerfil() {
             <input
               class="ms-3 me-1"
               type="radio"
-              v-model="user.preferredLanguage"
+              v-model="usuario.linguagemPref"
               value="Java"
               id="langJava"
             />
@@ -186,7 +186,7 @@ function salvarPerfil() {
             <input
               class="ms-3 me-1"
               type="radio"
-              v-model="user.preferredLanguage"
+              v-model="usuario.linguagemPref"
               value="Python"
               id="langPython"
             />
@@ -194,7 +194,7 @@ function salvarPerfil() {
             <input
               class="ms-3 me-1"
               type="radio"
-              v-model="user.preferredLanguage"
+              v-model="usuario.linguagemPref"
               value="Javascript"
               id="langJs"
             />
@@ -218,11 +218,11 @@ function salvarPerfil() {
 
 .form-enter-active,
 .form-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacidade 0.5s ease;
 }
 
 .form-enter-from,
 .form-leave-to {
-  opacity: 0;
+  opacidade: 0;
 }
 </style>
