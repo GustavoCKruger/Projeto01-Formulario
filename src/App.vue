@@ -3,14 +3,15 @@ import { ref } from 'vue'
 
 const usuario = ref({
   nome: '',
-  sobrenome: '',
+  senha: '',
+  confirmSenha: '',
   email: '',
   cidade: '',
   estado: '',
-  zip: '',
   avatar: '',
   hobbies: [],
-  linguagemPref: ''
+  linguagemPref: '',
+  bio: ''
 })
 
 const estados = [
@@ -43,16 +44,11 @@ const estados = [
   { uf: 'TO', nome: 'Tocantins' }
 ]
 
-const mostrarPerfil = ref(false)
-
-function handleFileUpload(e) {
-  const target = e.target
-  console.log(target)
-  if (target && target.files) {
-    const file = target.files[0]
-    usuario.value.avatar = URL.createObjectURL(file)
-  }
+if (usuario.value.senha != usuario.value.confirmSenha) {
+  alert('errado')
 }
+
+const mostrarPerfil = ref(false)
 
 function salvarPerfil() {
   mostrarPerfil.value = true
@@ -63,53 +59,44 @@ function salvarPerfil() {
   <div class="container">
     <main>
       <h1>Editor de Perfil</h1>
-      <transition nome="form" mode="out-in">
+      <transition name="form" mode="out-in">
         <section v-if="mostrarPerfil">
           <div class="mt-5 mb-3">
-            <p v-for="(value, key) of usuario" :key="key">{{ key }}: {{ value }}</p>
-            <img v-if="usuario.avatar" class="avatar" :src="usuario.avatar" />
+            <p v-for="(value, key) of user" :key="key">{{ key }}: {{ value }}</p>
+            <img v-if="user.avatar" class="avatar" :src="user.avatar" />
           </div>
           <button class="btn btn-info" @click="mostrarPerfil = false">Esconder</button>
         </section>
-        <form v-else class="row g-3 was-validated" @submit.prevent="salvarPerfil()" validate>
-          <div class="col-md-4">
-            <label for="nomeField" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="nomeField" v-model="usuario.nome" required />
-            <div class="invalid-feedback">Nome obrigatório</div>
+        <form v-else class="form" @submit.prevent="salvarPerfil()" validate>
+          <div class="row">
+            <label for="nomeField" class="formLabel">Nome</label>
+            <br>
+            <input type="text" class="formInput" id="nome" v-model="usuario.nome" required />
           </div>
-          <div class="col-md-4">
-            <label for="sobrenomeField" class="form-label">Sobrenome</label>
-            <input
-              type="text"
-              class="form-control"
-              id="sobrenomeField"
-              v-model="usuario.sobrenome"
-              required
-            />
-            <div class="invalid-feedback">Sobrenome obrigatório</div>
-          </div>
-          <div class="col-md-4">
-            <label for="emailField" class="form-label">E-mail</label>
+          <div class="row">
+            <label for="emailField" class="formLabel">E-mail</label>
             <div class="input-group">
-              <span class="input-group-text" id="emailFieldPrepend">@</span>
-              <input
-                type="email"
-                class="form-control"
-                id="emailField"
-                aria-describedby="emailFieldPrepend"
-                v-model="usuario.email"
-                required
-              />
-              <div class="invalid-feedback">E-mail obrigatório.</div>
-              <div class="valid-feedback">E-mail válido!</div>
+              <input type="email" class="formInput" id="email" v-model="usuario.email" required />
+            </div>
+            <div class="row">
+              <label for="senha">Senha</label>
+              <br>
+              <input type="password" id="senha" v-model="usuario.senha" required>
+            </div>
+            <div class="row">
+              <label for="confirmSenha">Confirme a senha</label>
+              <br>
+              <input type="password" id="confirmSenha" v-model="usuario.confirmSenha" required>
             </div>
           </div>
-          <div class="col-md-2">
-            <label for="cidadeField" class="form-label">Cidade</label>
-            <input type="text" class="form-control" id="cidadeField" v-model="usuario.cidade" />
+          <div class="select">
+            <label for="cidadeField" class="formLabel">Cidade</label>
+            <br>
+            <input type="text" class="formInput" id="cidadeField" v-model="usuario.cidade" required>
           </div>
-          <div class="col-md-2">
-            <label for="estadoField" class="form-label">Estado</label>
+          <div class="select">
+            <label for="estadoField" class="formLabel">Estado</label>
+            <br>
             <select class="form-select" id="estadoField" v-model="usuario.estado">
               <option selected disabled value="">Selecionar...</option>
               <option v-for="estado of estados" :key="estado.uf" :value="estado.uf">
@@ -117,90 +104,34 @@ function salvarPerfil() {
               </option>
             </select>
           </div>
-          <div class="col-md-2">
-            <label for="zipField" class="form-label">CEP</label>
-            <input type="text" class="form-control" id="zipField" v-model="usuario.zip" />
+          <div class="lista">
+            <p class="selected">Hobbies</p>
+            <input class="check" type="checkbox" id="hobbies" value="esportes" v-model="usuario.hobbies" />
+            <label for="hobbies">Esportes</label>
+            <input class="check" type="checkbox" id="hobbies" value="música" v-model="usuario.hobbies" />
+            <label for="hobbies">Música</label>
+            <input class="check" type="checkbox" id="hobbies" value="viagens" v-model="usuario.hobbies" />
+            <label for="hobbies">Viagens</label>
+            <input class="check" type="checkbox" id="hobbies" value="leitura" v-model="usuario.hobbies" />
+            <label for="hobbies">Leitura</label>
           </div>
-          <div class="col-md-6">
-            <label for="avatarField" class="form-label">Avatar</label>
-            <input
-              type="file"
-              class="form-control"
-              id="avatarField"
-              @change="handleFileUpload($event)"
-            />
-          </div>
-          <div class="col-6">
-            <p class="mb-0">Hobbies</p>
-            <input
-              class="ms-3 me-1"
-              type="checkbox"
-              id="hobbiesField"
-              value="esportes"
-              v-model="usuario.hobbies"
-            />
-            <label for="hobbiesField">Esportes</label>
-            <input
-              class="ms-3 me-1"
-              type="checkbox"
-              id="hobbiesField"
-              value="música"
-              v-model="usuario.hobbies"
-            />
-            <label for="hobbiesField">Música</label>
-            <input
-              class="ms-3 me-1"
-              type="checkbox"
-              id="hobbiesField"
-              value="viagens"
-              v-model="usuario.hobbies"
-            />
-            <label for="hobbiesField">Viagens</label>
-            <input
-              class="ms-3 me-1"
-              type="checkbox"
-              id="hobbiesField"
-              value="leitura"
-              v-model="usuario.hobbies"
-            />
-            <label for="hobbiesField">Leitura</label>
-          </div>
-          <div class="col-6">
-            <p class="mb-0">Linguagem preferida</p>
-            <input
-              class="ms-3 me-1"
-              type="radio"
-              v-model="usuario.linguagemPref"
-              value="C"
-              id="langC"
-            />
+          <div class="lista">
+            <p class="selected">Linguagem preferida</p>
+            <input class="check" type="radio" v-model="usuario.linguagemPref" value="C" id="langC" />
             <label for="langC">C</label>
-            <input
-              class="ms-3 me-1"
-              type="radio"
-              v-model="usuario.linguagemPref"
-              value="Java"
-              id="langJava"
-            />
+            <input class="check" type="radio" v-model="usuario.linguagemPref" value="Java" id="langJava" />
             <label for="langJava">Java</label>
-            <input
-              class="ms-3 me-1"
-              type="radio"
-              v-model="usuario.linguagemPref"
-              value="Python"
-              id="langPython"
-            />
+            <input class="check" type="radio" v-model="usuario.linguagemPref" value="Python" id="langPython" />
             <label for="langPython">Python</label>
-            <input
-              class="ms-3 me-1"
-              type="radio"
-              v-model="usuario.linguagemPref"
-              value="Javascript"
-              id="langJs"
-            />
+            <input class="check" type="radio" v-model="usuario.linguagemPref" value="Javascript" id="langJs" />
             <label for="langJs">JavaScript</label>
           </div>
-          <div class="col-12">
+          <div class="select">
+            <label for="biografia">Biografia</label>
+            <br>
+            <input type="text" id="biografia" v-model="usuario.bio" required>
+          </div>
+          <div class="botao">
             <button class="btn btn-primary" type="submit">Enviar</button>
           </div>
         </form>
@@ -210,10 +141,57 @@ function salvarPerfil() {
 </template>
 
 <style scoped>
-.avatar {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+.container {
+  border: 2px solid black;
+  min-width: 600px;
+  min-height: 750px;
+  margin-left: 300px;
+  border-radius: 20px;
+  background-color: dodgerblue;
+}
+
+body {
+  font-size: 40px;
+}
+
+main {
+  margin-left: 80px;
+  margin-top: 30px;
+}
+
+input {
+  background-color: cornflowerblue;
+  border: 1px solid black;
+  margin-left: 10px;
+  margin-top: 10px;
+  min-width: 300px;
+  min-height: 35px;
+  border-radius: 10px;
+}
+
+.form-select {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: gray;
+  min-width: 20px;
+  min-height: 20px;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.check {
+  border: 1px solid black;
+  min-width: 10px;
+}
+
+button {
+  min-height: 20px;
+  min-width: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 2px solid black;
+  background-color: blue;
+  color: aliceblue;
 }
 
 .form-enter-active,

@@ -34,14 +34,6 @@ a,
   }
 }
 
-input {
-  width: 400px;
-  padding: 10px;
-  font-size: 24px;
-  border-radius: 10px;
-  border: 1px solid transparent;
-}
-
 input[type='checkbox'],
 input[type='radio'] {
   width: 20px;
@@ -51,4 +43,8 @@ input[type='radio'] {
 
 input:hover {
   border: 1px solid black;
+}
+
+body {
+  background-color: rgb(112, 170, 228);
 }
