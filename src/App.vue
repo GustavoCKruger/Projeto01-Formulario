@@ -44,11 +44,9 @@ const estados = [
   { uf: 'TO', nome: 'Tocantins' }
 ]
 
-if (usuario.value.senha != usuario.value.confirmSenha) {
-  alert('errado')
-}
 
 const mostrarPerfil = ref(false)
+
 
 function salvarPerfil() {
   mostrarPerfil.value = true
@@ -56,15 +54,13 @@ function salvarPerfil() {
 </script>
 
 <template>
+  <title>Form.2info2.GustavoCKruger</title>
   <div class="container">
     <main>
       <h1>Editor de Perfil</h1>
       <transition name="form" mode="out-in">
         <section v-if="mostrarPerfil">
-          <div class="mt-5 mb-3">
-            <p v-for="(value, key) of user" :key="key">{{ key }}: {{ value }}</p>
-            <img v-if="user.avatar" class="avatar" :src="user.avatar" />
-          </div>
+          <p v-for="(value, key) of usuario" :key="key">{{ key }}: {{ value }}</p>
           <button class="btn btn-info" @click="mostrarPerfil = false">Esconder</button>
         </section>
         <form v-else class="form" @submit.prevent="salvarPerfil()" validate>
@@ -132,7 +128,7 @@ function salvarPerfil() {
             <input type="text" id="biografia" v-model="usuario.bio" required>
           </div>
           <div class="botao">
-            <button class="btn btn-primary" type="submit">Enviar</button>
+            <button class="botao" type="submit">Enviar</button>
           </div>
         </form>
       </transition>
@@ -143,7 +139,7 @@ function salvarPerfil() {
 <style scoped>
 .container {
   border: 2px solid black;
-  min-width: 600px;
+  min-width: 80%;
   min-height: 750px;
   margin-left: 300px;
   border-radius: 20px;
@@ -180,7 +176,7 @@ input {
 }
 
 .check {
-  border: 1px solid black;
+  border: 4px solid black;
   min-width: 10px;
 }
 
